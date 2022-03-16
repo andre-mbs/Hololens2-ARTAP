@@ -1,17 +1,26 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Microsoft.MixedReality.Toolkit.UI;
+using Microsoft.MixedReality.Toolkit.Input;
 
 public class HandMenu : MonoBehaviour
 {
     public GameObject manager;
     public GameObject mainMenu;
     public GameObject configurationMenu;
+    public GameObject partsListMenu;
+    public GameObject selectedBox;
+    public Material transparentBlueMat;
+    public Material transparentBlackMat;
+
     private GameObject selectedMenu;
 
     public bool removeBoxFlag;
     public bool showPartsListFlag;
     public bool setInformationFlag;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -42,6 +51,7 @@ public class HandMenu : MonoBehaviour
 	{
         mainMenu.SetActive(false);
         configurationMenu.SetActive(false);
+        partsListMenu.SetActive(false);
     }
 
     public void StartConfiguration()
@@ -71,6 +81,25 @@ public class HandMenu : MonoBehaviour
         manager.GetComponent<ShoppingList>().EnableListItems();
     }
 
+    public void StartSetInformation()
+    {
+        selectedMenu = partsListMenu;
+        //EnableMenu();
+    }
+
+    public void EndSetInformation()
+    {
+        selectedMenu = configurationMenu;
+        selectedBox.GetComponent<Renderer>().material = transparentBlueMat;
+        selectedBox.GetComponent<ObjectManipulator>().ManipulationType = 
+            Microsoft.MixedReality.Toolkit.Utilities.ManipulationHandFlags.OneHanded | 
+            Microsoft.MixedReality.Toolkit.Utilities.ManipulationHandFlags.TwoHanded;
+
+        setInformationFlag = false;
+        
+        EnableMenu();
+    }
+
     public void HideAllBoxes()
     {
         GameObject[] boxes = GameObject.FindGameObjectsWithTag("box");
@@ -92,7 +121,15 @@ public class HandMenu : MonoBehaviour
     }
 
     public void SetInformationFlag()
-    {
+	{
         setInformationFlag = true;
+    }
+
+    public void DisableObjectsManipulation()
+	{
+        foreach (GameObject b in manager.GetComponent<SpawnBox>().boxesList)
+        {
+            b.GetComponent<ObjectManipulator>().ManipulationType = 0;
+        }
     }
 }

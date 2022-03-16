@@ -8,7 +8,8 @@ public class PartsListButton : MonoBehaviour
     public string partReference;
     public string partLocation;
 
-    public GameObject partsListMenu;
+    public BoxInformationRepo repo;
+    public HandMenu handMenu;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,15 +24,16 @@ public class PartsListButton : MonoBehaviour
 
     public void SetBoxInformation()
 	{
-        GameObject selected = partsListMenu.GetComponent<PartsListMenu>().selectedGo;
-        
-        selected.GetComponent<BoxTagInformation>().partName = partName;
-        selected.GetComponent<BoxTagInformation>().partReference = partReference;
-        selected.GetComponent<BoxTagInformation>().partLocation = partLocation;
+        handMenu.selectedBox.GetComponent<BoxTagInformation>().partName = partName;
+        handMenu.selectedBox.GetComponent<BoxTagInformation>().partReference = partReference;
+        handMenu.selectedBox.GetComponent<BoxTagInformation>().partLocation = partLocation;
+        handMenu.selectedBox.GetComponent<BoxTagInformation>().tagSet = true;
 
-        GameObject.Find("Manager").GetComponent<BoxInformationRepo>().Add(selected.name, partName, partReference, partLocation);
+        repo.Add(handMenu.selectedBox.name, partName, partReference, partLocation);
 
-        partsListMenu.GetComponent<PartsListMenu>().selectedGo.GetComponent<BoxTagInformation>().UpdateText();
-        partsListMenu.SetActive(false);
+        handMenu.selectedBox.GetComponent<BoxTagInformation>().UpdateText();
+
+        handMenu.EndSetInformation();
+        //partsListMenu.SetActive(false);
     }
 }

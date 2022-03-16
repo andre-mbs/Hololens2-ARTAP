@@ -1,19 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Microsoft.MixedReality.Toolkit.UI;
 
 public class BoxInteraction : MonoBehaviour
 {
 	private Anchors managerAnchors;
-	//private MenuInteraction managerMenuInteraction;
 	public HandMenu handMenu;
 	public GameObject partsListGo;
+	public Material greenMat;
+	public Material transparentBlueMat;
+	public Material transparentBlackMat;
 
 	private void Start()
 	{
 		managerAnchors = GameObject.Find("Manager").GetComponent<Anchors>();
 		handMenu = GameObject.Find("HandMenu").GetComponent<HandMenu>();
-		//managerMenuInteraction = GameObject.Find("Manager").GetComponent<MenuInteraction>();
 	}
 	public void BeginInteraction()
 	{
@@ -42,24 +44,38 @@ public class BoxInteraction : MonoBehaviour
 
 	public void ShowPartsList()
 	{
-		//Debug.Log(managerMenuInteraction.showPartsListFlag);
-		if (handMenu.showPartsListFlag)
+		if (handMenu.setInformationFlag)
 		{
-			//Vector3 offset = new Vector3(0.1f, 0.1f, 0.1f);
-			//Vector3 pos = transform.position + offset;
-			//Vector3 pos = new Vector3(transform.position.x+0.5f, transform.position.y+0.5f, transform.position.z+0.5f);
+			// Set ManipulationType to "Nothing" (01 bitwise and 10), so the box dosen't move when selecting it to set tag information
+			// More at: https://docs.microsoft.com/en-us/dotnet/api/microsoft.mixedreality.toolkit.utilities.manipulationhandflags
+			gameObject.GetComponent<ObjectManipulator>().ManipulationType =
+					Microsoft.MixedReality.Toolkit.Utilities.ManipulationHandFlags.OneHanded &
+					Microsoft.MixedReality.Toolkit.Utilities.ManipulationHandFlags.TwoHanded;
 
-			//partsListGo.transform.position = pos;
-			//partsListGo.GetComponent<PartsListMenu>().selectedGo = gameObject;
-			//partsListGo.SetActive(true);
+			// Check if there was a previously selected box
+			if (handMenu.selectedBox)
+			{
+				if (handMenu.selectedBox.GetComponent<BoxTagInformation>().tagSet)
+				{
+					handMenu.selectedBox.GetComponent<Renderer>().material = transparentBlueMat;
+				}
+				else
+				{
+					handMenu.selectedBox.GetComponent<Renderer>().material = transparentBlackMat;
+				}
 
-			//handMenu.showPartsListFlag = false;
+				// Set ManipulationType to "Everything" (01 bitwise or 10), so the box can be moved again
+				// More at: https://docs.microsoft.com/en-us/dotnet/api/microsoft.mixedreality.toolkit.utilities.manipulationhandflags
+				handMenu.selectedBox.GetComponent<ObjectManipulator>().ManipulationType = 
+					Microsoft.MixedReality.Toolkit.Utilities.ManipulationHandFlags.OneHanded | 
+					Microsoft.MixedReality.Toolkit.Utilities.ManipulationHandFlags.TwoHanded;
+			}
+
+			// Set the box color to green when selected to set tag information
+			gameObject.GetComponent<Renderer>().material = greenMat;
+			handMenu.selectedBox = gameObject;
+			handMenu.StartSetInformation();
 		}
-
-	}
-
-	public void ShowInformation()
-	{
 
 	}
 }

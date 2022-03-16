@@ -9,6 +9,8 @@ public class BoxTagInformation : MonoBehaviour
     public string partReference;
     public string partLocation;
 
+    public bool tagSet;
+
     public GameObject textMeshPro;
 	// Start is called before the first frame update
 	void Start()
