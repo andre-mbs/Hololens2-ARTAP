@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class BoxInformationRepo : MonoBehaviour
 {
+    public List<GameObject> boxesList;
     private Dictionary<string, string[]> repo;
     // Start is called before the first frame update
     void Start()
     {
+        boxesList = new List<GameObject>();
         repo = new Dictionary<string, string[]>();
     }
 
@@ -17,7 +19,17 @@ public class BoxInformationRepo : MonoBehaviour
         
     }
 
-    public void Add(string boxName, string partName, string partReference, string partLocation)
+    public void AddBox(GameObject box)
+	{
+        boxesList.Add(box);
+	}
+
+    public void RemoveBox(GameObject box)
+	{
+        boxesList.Remove(box);
+	}
+
+    public void AddInfo(string boxName, string partName, string partReference, string partLocation)
 	{
 		if (repo.ContainsKey(boxName))
 		{
@@ -28,7 +40,7 @@ public class BoxInformationRepo : MonoBehaviour
         repo.Add(boxName, value);
 	}
 
-    public void Remove(string boxName)
+    public void RemoveInfo(string boxName)
 	{
         repo.Remove(boxName);
     }

@@ -27,7 +27,7 @@ public class PartsListButton : MonoBehaviour
         handMenu.selectedBox.GetComponent<BoxTagInformation>().UpdateInfo(partName, partReference, partLocation);
         handMenu.selectedBox.GetComponent<BoxTagInformation>().tagSet = true;
 
-        repo.Add(handMenu.selectedBox.name, partName, partReference, partLocation);
+        repo.AddInfo(handMenu.selectedBox.name, partName, partReference, partLocation);
 
         handMenu.EndSetInformation(true);
     }
@@ -37,7 +37,7 @@ public class PartsListButton : MonoBehaviour
         handMenu.selectedBox.GetComponent<BoxTagInformation>().UpdateInfo("", "", "");
         handMenu.selectedBox.GetComponent<BoxTagInformation>().tagSet = false;
 
-        repo.Remove(handMenu.selectedBox.name);
+        repo.RemoveInfo(handMenu.selectedBox.name);
 
         handMenu.EndSetInformation(false);
     }

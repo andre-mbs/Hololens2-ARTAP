@@ -6,9 +6,9 @@ using System;
 public class SpawnBox : MonoBehaviour
 {
 	public GameObject boxPrefab;
-	public List<GameObject> boxesList = new List<GameObject>();
 	public Material mat;
 	public GameObject head;
+	public BoxInformationRepo repo;
 
 	private static int cnt = 0;
 
@@ -29,7 +29,7 @@ public class SpawnBox : MonoBehaviour
 		spawnedBox.name = "box" + cnt.ToString();
 		spawnedBox.GetComponent<Renderer>().material = mat;
 
-		boxesList.Add(spawnedBox);
+		repo.AddBox(spawnedBox);
 		cnt++;
 	}
 
@@ -40,7 +40,7 @@ public class SpawnBox : MonoBehaviour
 		spawnedBox.name = name;
 		spawnedBox.GetComponent<Renderer>().material = mat;
 
-		boxesList.Add(spawnedBox);
+		repo.AddBox(spawnedBox);
 		cnt++;
 	}
 }

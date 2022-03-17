@@ -26,7 +26,7 @@ public class ShoppingList : MonoBehaviour
         foreach(string part in list1)
 		{
             string boxName = gameObject.GetComponent<BoxInformationRepo>().GetByReference(part);
-            foreach (GameObject b in gameObject.GetComponent<SpawnBox>().boxesList)
+            foreach (GameObject b in gameObject.GetComponent<BoxInformationRepo>().boxesList)
             {
                 if(b.name == boxName)
 				{

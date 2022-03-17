@@ -6,6 +6,7 @@ using Microsoft.MixedReality.Toolkit.UI;
 public class BoxInteraction : MonoBehaviour
 {
 	private Anchors managerAnchors;
+	private BoxInformationRepo repo;
 	public HandMenu handMenu;
 	public GameObject partsListGo;
 	public Material greenMat;
@@ -15,6 +16,7 @@ public class BoxInteraction : MonoBehaviour
 	private void Start()
 	{
 		managerAnchors = GameObject.Find("Manager").GetComponent<Anchors>();
+		repo = GameObject.Find("Manager").GetComponent<BoxInformationRepo>();
 		handMenu = GameObject.Find("HandMenu").GetComponent<HandMenu>();
 	}
 	public void BeginInteraction()
@@ -37,8 +39,9 @@ public class BoxInteraction : MonoBehaviour
 			Debug.Log(name + " deleted");
 			managerAnchors.DeleteAnchor(name);
 			handMenu.removeBoxFlag = false;
-			//Destroy(gameObject);
-			gameObject.SetActive(false);
+			repo.RemoveBox(gameObject);
+			Destroy(gameObject);
+			//gameObject.SetActive(false);
 		}
 	}
 

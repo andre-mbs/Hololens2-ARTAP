@@ -8,6 +8,7 @@ using Microsoft.MixedReality.Toolkit.Input;
 public class HandMenu : MonoBehaviour
 {
     public GameObject manager;
+    public BoxInformationRepo repo;
     public GameObject mainMenu;
     public GameObject configurationMenu;
     public GameObject partsListMenu;
@@ -63,7 +64,7 @@ public class HandMenu : MonoBehaviour
 
     public void StartConfiguration()
     {
-        foreach (GameObject b in manager.GetComponent<SpawnBox>().boxesList)
+        foreach (GameObject b in repo.boxesList)
         {
             b.SetActive(true);
         }
@@ -119,13 +120,9 @@ public class HandMenu : MonoBehaviour
 
     public void HideAllBoxes()
     {
-        GameObject[] boxes = GameObject.FindGameObjectsWithTag("box");
-        if (boxes.Length > 0)
+        foreach (GameObject b in repo.boxesList)
         {
-            foreach (GameObject b in boxes)
-            {
-                b.SetActive(false);
-            }
+            b.SetActive(false);
         }
     }
     public void SetRemoveFlag()
@@ -144,7 +141,7 @@ public class HandMenu : MonoBehaviour
 
     public void DisableObjectsManipulation()
 	{
-        foreach (GameObject b in manager.GetComponent<SpawnBox>().boxesList)
+        foreach (GameObject b in repo.boxesList)
         {
             b.GetComponent<ObjectManipulator>().ManipulationType = 0;
         }
