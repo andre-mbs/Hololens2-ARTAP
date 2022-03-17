@@ -19,9 +19,19 @@ public class BoxInformationRepo : MonoBehaviour
 
     public void Add(string boxName, string partName, string partReference, string partLocation)
 	{
+		if (repo.ContainsKey(boxName))
+		{
+            repo.Remove(boxName);
+		}
+
         string[] value = { partName, partReference, partLocation };
         repo.Add(boxName, value);
 	}
+
+    public void Remove(string boxName)
+	{
+        repo.Remove(boxName);
+    }
 
     public string GetByReference(string partRef)
 	{

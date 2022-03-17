@@ -53,7 +53,7 @@ public class BoxInteraction : MonoBehaviour
 					Microsoft.MixedReality.Toolkit.Utilities.ManipulationHandFlags.TwoHanded;
 
 			// Check if there was a previously selected box
-			if (handMenu.selectedBox)
+			if (handMenu.selectedBox && handMenu.selectedBox != gameObject)
 			{
 				if (handMenu.selectedBox.GetComponent<BoxTagInformation>().tagSet)
 				{

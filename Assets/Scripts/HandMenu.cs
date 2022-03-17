@@ -16,6 +16,7 @@ public class HandMenu : MonoBehaviour
     public Material transparentBlackMat;
 
     private GameObject selectedMenu;
+    private bool handActivated;
 
     public bool removeBoxFlag;
     public bool showPartsListFlag;
@@ -33,6 +34,11 @@ public class HandMenu : MonoBehaviour
 
     }
 
+    public void HandActive(bool flag)
+	{
+        handActivated = flag;
+	}
+
     public void BackToMain()
 	{
         HideAllBoxes();
@@ -45,6 +51,7 @@ public class HandMenu : MonoBehaviour
 	{
         DisableAll();
         selectedMenu.SetActive(true);
+        
 	}
 
     public void DisableAll()
@@ -84,13 +91,23 @@ public class HandMenu : MonoBehaviour
     public void StartSetInformation()
     {
         selectedMenu = partsListMenu;
-        //EnableMenu();
+		if (handActivated)
+		{
+            EnableMenu();
+        }
     }
 
-    public void EndSetInformation()
+    public void EndSetInformation(bool confDone)
     {
         selectedMenu = configurationMenu;
-        selectedBox.GetComponent<Renderer>().material = transparentBlueMat;
+		if (confDone || (!confDone && selectedBox.GetComponent<BoxTagInformation>().tagSet))
+		{
+            selectedBox.GetComponent<Renderer>().material = transparentBlueMat;
+        }
+        else
+		{
+            selectedBox.GetComponent<Renderer>().material = transparentBlackMat;
+        }
         selectedBox.GetComponent<ObjectManipulator>().ManipulationType = 
             Microsoft.MixedReality.Toolkit.Utilities.ManipulationHandFlags.OneHanded | 
             Microsoft.MixedReality.Toolkit.Utilities.ManipulationHandFlags.TwoHanded;

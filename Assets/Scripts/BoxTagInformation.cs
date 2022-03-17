@@ -24,10 +24,14 @@ public class BoxTagInformation : MonoBehaviour
         
     }
 
-    public void UpdateTagInfo()
+    public void UpdateInfo(string partName, string partReference, string partLocation)
 	{
+        this.partName = partName;
+        this.partReference = partReference;
+        this.partLocation = partLocation;
 
-	}
+        textMeshPro.GetComponent<TextMeshPro>().text = partReference;
+    }
 
     public void UpdateText()
 	{

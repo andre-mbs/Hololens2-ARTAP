@@ -24,16 +24,21 @@ public class PartsListButton : MonoBehaviour
 
     public void SetBoxInformation()
 	{
-        handMenu.selectedBox.GetComponent<BoxTagInformation>().partName = partName;
-        handMenu.selectedBox.GetComponent<BoxTagInformation>().partReference = partReference;
-        handMenu.selectedBox.GetComponent<BoxTagInformation>().partLocation = partLocation;
+        handMenu.selectedBox.GetComponent<BoxTagInformation>().UpdateInfo(partName, partReference, partLocation);
         handMenu.selectedBox.GetComponent<BoxTagInformation>().tagSet = true;
 
         repo.Add(handMenu.selectedBox.name, partName, partReference, partLocation);
 
-        handMenu.selectedBox.GetComponent<BoxTagInformation>().UpdateText();
+        handMenu.EndSetInformation(true);
+    }
 
-        handMenu.EndSetInformation();
-        //partsListMenu.SetActive(false);
+    public void RemoveBoxInformation()
+	{
+        handMenu.selectedBox.GetComponent<BoxTagInformation>().UpdateInfo("", "", "");
+        handMenu.selectedBox.GetComponent<BoxTagInformation>().tagSet = false;
+
+        repo.Remove(handMenu.selectedBox.name);
+
+        handMenu.EndSetInformation(false);
     }
 }
