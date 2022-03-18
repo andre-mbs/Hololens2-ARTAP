@@ -20,7 +20,7 @@ public class SpawnBox : MonoBehaviour
 	{
 		Vector3 headPos = head.transform.position;
 
-		Vector3 position = headPos + head.transform.forward;
+		Vector3 position = headPos + head.transform.forward * 0.6f;
 		GameObject spawnedBox = Instantiate(boxPrefab, position, transform.rotation);
 		while(GameObject.Find("box" + cnt.ToString()) != null)
 		{
