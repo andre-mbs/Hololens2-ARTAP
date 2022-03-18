@@ -4,14 +4,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using Microsoft.MixedReality.Toolkit.UI;
 using Microsoft.MixedReality.Toolkit.Input;
+using TMPro;
 
 public class HandMenu : MonoBehaviour
 {
     public GameObject manager;
     public BoxInformationRepo repo;
+
     public GameObject mainMenu;
     public GameObject configurationMenu;
     public GameObject partsListMenu;
+    public GameObject infoPanel;
+
     public GameObject selectedBox;
     public Material transparentBlueMat;
     public Material transparentBlackMat;
@@ -60,6 +64,7 @@ public class HandMenu : MonoBehaviour
         mainMenu.SetActive(false);
         configurationMenu.SetActive(false);
         partsListMenu.SetActive(false);
+        infoPanel.SetActive(false);
     }
 
     public void StartConfiguration()
@@ -114,8 +119,28 @@ public class HandMenu : MonoBehaviour
             Microsoft.MixedReality.Toolkit.Utilities.ManipulationHandFlags.TwoHanded;
 
         setInformationFlag = false;
-        
-        EnableMenu();
+
+        SetMenu(configurationMenu);
+    }
+
+    public void ShowInfoPanel(string panel)
+	{
+        if(string.Equals(panel, "remove"))
+		{
+            infoPanel.transform.GetChild(0).gameObject.GetComponent<TextMeshPro>().text = "Remove Box";
+            infoPanel.transform.GetChild(1).gameObject.GetComponent<TextMeshPro>().text = "Select the box you want to remove";
+        }else if(string.Equals(panel, "setBoxInfo"))
+		{
+            infoPanel.transform.GetChild(0).gameObject.GetComponent<TextMeshPro>().text = "Set Box Information";
+            infoPanel.transform.GetChild(1).gameObject.GetComponent<TextMeshPro>().text = "Select the box you want to set the tag information";
+        }
+
+        selectedMenu = infoPanel;
+
+        if (handActivated)
+        {
+            EnableMenu();
+        }
     }
 
     public void HideAllBoxes()
@@ -128,6 +153,7 @@ public class HandMenu : MonoBehaviour
     public void SetRemoveFlag()
     {
         removeBoxFlag = true;
+        ShowInfoPanel("remove");
     }
     public void SetShowPartsListFlag()
     {
@@ -137,7 +163,18 @@ public class HandMenu : MonoBehaviour
     public void SetInformationFlag()
 	{
         setInformationFlag = true;
+        ShowInfoPanel("setBoxInfo");
+
     }
+
+    public void SetMenu(GameObject menu)
+	{
+        selectedMenu = menu;
+		if (handActivated)
+		{
+            EnableMenu();
+		}
+	}
 
     public void DisableObjectsManipulation()
 	{

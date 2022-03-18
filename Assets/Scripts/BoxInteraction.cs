@@ -39,9 +39,10 @@ public class BoxInteraction : MonoBehaviour
 			Debug.Log(name + " deleted");
 			managerAnchors.DeleteAnchor(name);
 			handMenu.removeBoxFlag = false;
+			handMenu.SetMenu(handMenu.configurationMenu);
+
 			repo.RemoveBox(gameObject);
 			Destroy(gameObject);
-			//gameObject.SetActive(false);
 		}
 	}
 
