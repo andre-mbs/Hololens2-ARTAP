@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Microsoft.MixedReality.Toolkit.UI;
-using Microsoft.MixedReality.Toolkit.Input;
 using TMPro;
 
 public class HandMenu : MonoBehaviour
@@ -13,6 +12,7 @@ public class HandMenu : MonoBehaviour
 
     public GameObject mainMenu;
     public GameObject configurationMenu;
+    public GameObject visualizationMenu;
     public GameObject partsListMenu;
     public GameObject infoPanel;
 
@@ -26,6 +26,7 @@ public class HandMenu : MonoBehaviour
     public bool removeBoxFlag;
     public bool showPartsListFlag;
     public bool setInformationFlag;
+    public bool visualizationMode;
 
     // Start is called before the first frame update
     void Start()
@@ -63,6 +64,7 @@ public class HandMenu : MonoBehaviour
 	{
         mainMenu.SetActive(false);
         configurationMenu.SetActive(false);
+        visualizationMenu.SetActive(false);
         partsListMenu.SetActive(false);
         infoPanel.SetActive(false);
     }
@@ -71,6 +73,17 @@ public class HandMenu : MonoBehaviour
     {
         foreach (GameObject b in repo.boxesList)
         {
+            b.GetComponent<ObjectManipulator>().ManipulationType =
+                Microsoft.MixedReality.Toolkit.Utilities.ManipulationHandFlags.OneHanded |
+                Microsoft.MixedReality.Toolkit.Utilities.ManipulationHandFlags.TwoHanded;
+			if (b.GetComponent<BoxTagInformation>().tagSet)
+			{
+                b.GetComponent<Renderer>().material = transparentBlueMat;
+			}
+			else
+			{
+                b.GetComponent<Renderer>().material = transparentBlackMat;
+            }
             b.SetActive(true);
         }
 
@@ -80,18 +93,17 @@ public class HandMenu : MonoBehaviour
 
     public void StartVisualization()
     {
-        configurationMenu.SetActive(false);
-
-        GameObject[] boxes = GameObject.FindGameObjectsWithTag("box");
-        if (boxes.Length > 0)
+        foreach (GameObject b in repo.boxesList)
         {
-            foreach (GameObject b in boxes)
-            {
-                b.SetActive(false);
-            }
+            b.GetComponent<ObjectManipulator>().ManipulationType =
+                Microsoft.MixedReality.Toolkit.Utilities.ManipulationHandFlags.OneHanded &
+                Microsoft.MixedReality.Toolkit.Utilities.ManipulationHandFlags.TwoHanded;
         }
 
-        manager.GetComponent<ShoppingList>().EnableListItems();
+        selectedMenu = visualizationMenu;
+        EnableMenu();
+
+        //manager.GetComponent<ShoppingList>().EnableListItems();
     }
 
     public void StartSetInformation()
