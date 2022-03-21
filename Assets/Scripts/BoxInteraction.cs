@@ -82,4 +82,12 @@ public class BoxInteraction : MonoBehaviour
 		}
 
 	}
+
+	public void PickPart()
+	{
+		if (handMenu.visualizationMode)
+		{
+			gameObject.GetComponent<Renderer>().material = transparentBlackMat;
+		}
+	}
 }

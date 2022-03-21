@@ -50,6 +50,7 @@ public class HandMenu : MonoBehaviour
         HideAllBoxes();
 
         selectedMenu = mainMenu;
+        visualizationMode = false;
         EnableMenu();
     }
 
@@ -73,10 +74,9 @@ public class HandMenu : MonoBehaviour
     {
         foreach (GameObject b in repo.boxesList)
         {
-            b.GetComponent<ObjectManipulator>().ManipulationType =
-                Microsoft.MixedReality.Toolkit.Utilities.ManipulationHandFlags.OneHanded |
-                Microsoft.MixedReality.Toolkit.Utilities.ManipulationHandFlags.TwoHanded;
-			if (b.GetComponent<BoxTagInformation>().tagSet)
+            b.GetComponent<MoveAxisConstraint>().enabled = false;
+            b.GetComponent<RotationAxisConstraint>().enabled = false;
+            if (b.GetComponent<BoxTagInformation>().tagSet)
 			{
                 b.GetComponent<Renderer>().material = transparentBlueMat;
 			}
@@ -95,15 +95,14 @@ public class HandMenu : MonoBehaviour
     {
         foreach (GameObject b in repo.boxesList)
         {
-            b.GetComponent<ObjectManipulator>().ManipulationType =
-                Microsoft.MixedReality.Toolkit.Utilities.ManipulationHandFlags.OneHanded &
-                Microsoft.MixedReality.Toolkit.Utilities.ManipulationHandFlags.TwoHanded;
+            b.GetComponent<MoveAxisConstraint>().enabled = true;
+            b.GetComponent<RotationAxisConstraint>().enabled = true;
+            b.GetComponent<Renderer>().material = transparentBlackMat;
         }
 
         selectedMenu = visualizationMenu;
+        visualizationMode = true;
         EnableMenu();
-
-        //manager.GetComponent<ShoppingList>().EnableListItems();
     }
 
     public void StartSetInformation()

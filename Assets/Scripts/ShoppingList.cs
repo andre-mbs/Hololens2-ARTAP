@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class ShoppingList : MonoBehaviour
 {
+    public BoxInformationRepo repo;
+
     public string[] list1;
     public string[] list2;
     public string[] list3;
 
     public Material greenMat;
-    public Material transparentBlack;
+    public Material transparentBlackMat;
 
     public bool visualizationMode;
     // Start is called before the first frame update
@@ -26,6 +28,10 @@ public class ShoppingList : MonoBehaviour
 
     public void EnableListItems(string list)
 	{
+        foreach (GameObject b in repo.boxesList)
+        {
+            b.GetComponent<Renderer>().material = transparentBlackMat;
+        }
         string[] selectedList;
 		switch (list)
 		{
@@ -45,17 +51,13 @@ public class ShoppingList : MonoBehaviour
 
         foreach(string part in selectedList)
 		{
-            string boxName = gameObject.GetComponent<BoxInformationRepo>().GetByReference(part);
-            foreach (GameObject b in gameObject.GetComponent<BoxInformationRepo>().boxesList)
+            string boxName = repo.GetByReference(part);
+            foreach (GameObject b in repo.boxesList)
             {
                 if (b.name == boxName)
 				{
                     b.GetComponent<Renderer>().material = greenMat;
 				}
-				else
-				{
-                    b.GetComponent<Renderer>().material = transparentBlack;
-                }
                 b.SetActive(true);
             }
         }

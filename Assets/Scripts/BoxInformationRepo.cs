@@ -21,7 +21,18 @@ public class BoxInformationRepo : MonoBehaviour
 
     public void AddBox(GameObject box)
 	{
+        Debug.Log(box.name + " added");
         boxesList.Add(box);
+        if (PlayerPrefs.HasKey(box.name))
+        {
+            string[] boxInfo = PlayerPrefs.GetString(box.name).Split(';');
+            repo.Add(box.name, boxInfo);
+            Debug.Log("Info found for " + box.name + "->" + boxInfo[0] + ";" + boxInfo[1] + ";" +boxInfo[2]);
+            box.GetComponent<BoxTagInformation>().partName = boxInfo[0];
+            box.GetComponent<BoxTagInformation>().partReference = boxInfo[1];
+            box.GetComponent<BoxTagInformation>().partLocation = boxInfo[2];
+            box.GetComponent<BoxTagInformation>().tagSet = true;
+        }
 	}
 
     public void RemoveBox(GameObject box)
@@ -36,12 +47,17 @@ public class BoxInformationRepo : MonoBehaviour
             repo.Remove(boxName);
 		}
 
-        string[] value = { partName, partReference, partLocation };
-        repo.Add(boxName, value);
+        string[] valueArray = { partName, partReference, partLocation };
+        string valueString = partName + ";" + partReference + ";" + partLocation;
+        repo.Add(boxName, valueArray);
+        PlayerPrefs.SetString(boxName, valueString);
+
+        Debug.Log("Info saved: " + boxName + "->" + valueString);
 	}
 
     public void RemoveInfo(string boxName)
 	{
+        PlayerPrefs.DeleteKey(boxName);
         repo.Remove(boxName);
     }
 
@@ -57,10 +73,5 @@ public class BoxInformationRepo : MonoBehaviour
 		}
 
         return box;
-	}
-
-    public void WriteToFile()
-	{
-
 	}
 }

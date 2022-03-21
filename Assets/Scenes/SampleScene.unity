@@ -3410,7 +3410,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boxPrefab: {fileID: 217010613975340655, guid: 4eca3dbb19bfc014db3e22e40a42179e,
     type: 3}
-  mat: {fileID: 2100000, guid: 00bbd2862c3dfa04b978edc5275855a1, type: 2}
+  transparentBlack: {fileID: 2100000, guid: 00bbd2862c3dfa04b978edc5275855a1, type: 2}
+  transparentBlue: {fileID: 2100000, guid: 17e9edcf5cb28544c80e27df38a49f87, type: 2}
   head: {fileID: 1577749883}
   repo: {fileID: 223974232}
 --- !u!4 &223974228
@@ -3478,6 +3479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75e2905bc91cd804ab68d75dc038818c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  repo: {fileID: 223974232}
   list1:
   - 8-738-710-491
   - 8-738-726-577
@@ -3491,7 +3493,7 @@ MonoBehaviour:
   - 8-738-707-357
   - 8-738-718-722
   greenMat: {fileID: 2100000, guid: 4fb47c800fd48ea4ab3c2c604a89b526, type: 2}
-  transparentBlack: {fileID: 2100000, guid: 00bbd2862c3dfa04b978edc5275855a1, type: 2}
+  transparentBlackMat: {fileID: 2100000, guid: 00bbd2862c3dfa04b978edc5275855a1, type: 2}
   visualizationMode: 0
 --- !u!1 &224748446
 GameObject:

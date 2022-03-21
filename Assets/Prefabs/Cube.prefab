@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 217010613975340650}
   - component: {fileID: -4066314281361724953}
   - component: {fileID: -2914661789397895182}
+  - component: {fileID: 2440797704486033318}
   - component: {fileID: 5788578208721156101}
   - component: {fileID: 1872172530136460643}
   m_Layer: 0
@@ -114,6 +115,7 @@ MonoBehaviour:
   autoConstraintSelection: 0
   selectedConstraints:
   - {fileID: -2914661789397895182}
+  - {fileID: 2440797704486033318}
 --- !u!114 &217010613975340650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,6 +174,17 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 5788578208721156101}
         m_MethodName: ShowPartsList
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5788578208721156101}
+        m_MethodName: PickPart
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -249,9 +262,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b3e6359c9750ad4fb8a05c9b8704d7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  handType: 3
-  proximityType: 3
-  constraintOnRotation: 0
+  handType: -1
+  proximityType: -1
+  constraintOnRotation: -1
+  useLocalSpaceForConstraint: 0
+--- !u!114 &2440797704486033318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 217010613975340655}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 149fa3ae453128b41940b5caa905f8ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  handType: -1
+  proximityType: -1
+  constraintOnMovement: -1
   useLocalSpaceForConstraint: 0
 --- !u!114 &5788578208721156101
 MonoBehaviour:
@@ -286,4 +315,3 @@ MonoBehaviour:
   partReference: 
   partLocation: 
   tagSet: 0
-  textMeshPro: {fileID: 0}

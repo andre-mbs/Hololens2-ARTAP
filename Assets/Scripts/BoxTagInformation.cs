@@ -29,16 +29,4 @@ public class BoxTagInformation : MonoBehaviour
         this.partReference = partReference;
         this.partLocation = partLocation;
     }
-
-    public void UpdateText()
-	{
-	}
-
-    public void ShowText()
-	{
-	}
-
-    public void HideText()
-	{
-    }
 }
