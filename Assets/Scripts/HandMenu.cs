@@ -28,6 +28,8 @@ public class HandMenu : MonoBehaviour
     public bool setInformationFlag;
     public bool visualizationMode;
 
+    public MyQRCodeManager myQRCodeManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -117,18 +119,20 @@ public class HandMenu : MonoBehaviour
     public void EndSetInformation(bool confDone)
     {
         selectedMenu = configurationMenu;
-		if (confDone || (!confDone && selectedBox.GetComponent<BoxTagInformation>().tagSet))
+        if(selectedBox != null)
 		{
-            selectedBox.GetComponent<Renderer>().material = transparentBlueMat;
+		    if (confDone || (!confDone && selectedBox.GetComponent<BoxTagInformation>().tagSet))
+		    {
+                selectedBox.GetComponent<Renderer>().material = transparentBlueMat;
+            }
+            else
+		    {
+                selectedBox.GetComponent<Renderer>().material = transparentBlackMat;
+            }
+            selectedBox.GetComponent<ObjectManipulator>().ManipulationType = 
+                Microsoft.MixedReality.Toolkit.Utilities.ManipulationHandFlags.OneHanded | 
+                Microsoft.MixedReality.Toolkit.Utilities.ManipulationHandFlags.TwoHanded;
         }
-        else
-		{
-            selectedBox.GetComponent<Renderer>().material = transparentBlackMat;
-        }
-        selectedBox.GetComponent<ObjectManipulator>().ManipulationType = 
-            Microsoft.MixedReality.Toolkit.Utilities.ManipulationHandFlags.OneHanded | 
-            Microsoft.MixedReality.Toolkit.Utilities.ManipulationHandFlags.TwoHanded;
-
         setInformationFlag = false;
 
         SetMenu(configurationMenu);
@@ -144,6 +148,18 @@ public class HandMenu : MonoBehaviour
 		{
             infoPanel.transform.GetChild(0).gameObject.GetComponent<TextMeshPro>().text = "Set Box Information";
             infoPanel.transform.GetChild(1).gameObject.GetComponent<TextMeshPro>().text = "Select the box you want to set the tag information";
+        }
+        else if (string.Equals(panel, "qrcode_wait"))
+        {
+            infoPanel.transform.GetChild(0).gameObject.GetComponent<TextMeshPro>().text = "QRCode Detection";
+            infoPanel.transform.GetChild(1).gameObject.GetComponent<TextMeshPro>().text = "Get closer to a QR Code tag";
+            //infoPanel.transform.GetChild(2).gameObject.SetActive(false);
+        }
+        else if (string.Equals(panel, "qrcode_detected"))
+        {
+            infoPanel.transform.GetChild(0).gameObject.GetComponent<TextMeshPro>().text = "QRCode Detection";
+            infoPanel.transform.GetChild(1).gameObject.GetComponent<TextMeshPro>().text = "Tag detected: " + myQRCodeManager.CheckNearQR() + ".\nPress 'Add box' to confirm or 'Back' to cancel";
+            //infoPanel.transform.GetChild(2).gameObject.SetActive(true);
         }
 
         selectedMenu = infoPanel;
@@ -176,6 +192,38 @@ public class HandMenu : MonoBehaviour
         setInformationFlag = true;
         ShowInfoPanel("setBoxInfo");
 
+    }
+
+    public void StartQrDetection()
+    {
+        //startQrDetection = true;
+        ShowInfoPanel("qrcode_wait");
+        myQRCodeManager.StartScan();
+    }
+
+    public void EndQrDetection()
+    {
+        //startQrDetection = false;
+        ShowInfoPanel("qrcode_detected");
+    }
+
+    public void AddBoxFromQR()
+    {
+        manager.GetComponent<SpawnBox>().Spawn();
+        GameObject spawnedBox = manager.GetComponent<SpawnBox>().lastSpawnedBox;
+
+        string qrString = myQRCodeManager.CheckNearQR();
+        string[] qrData = qrString.Replace(" ", "").Split('/');
+        Pose qrPose;
+        myQRCodeManager.qrCodeList.TryGetValue(qrString, out qrPose);
+
+        spawnedBox.transform.position = qrPose.position;
+        spawnedBox.GetComponent<BoxTagInformation>().UpdateInfo("", qrData[0], qrData[1]);
+        spawnedBox.GetComponent<BoxTagInformation>().tagSet = true;
+        repo.AddInfo(spawnedBox.name, "", qrData[0], qrData[1]);
+
+        spawnedBox.GetComponent<Renderer>().material = transparentBlueMat;
+        EndSetInformation(false);
     }
 
     public void SetMenu(GameObject menu)
