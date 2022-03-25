@@ -15,6 +15,7 @@ public class HandMenu : MonoBehaviour
     public GameObject visualizationMenu;
     public GameObject partsListMenu;
     public GameObject infoPanel;
+    public GameObject qrMenu;
 
     public GameObject selectedBox;
     public Material transparentBlueMat;
@@ -158,7 +159,7 @@ public class HandMenu : MonoBehaviour
         else if (string.Equals(panel, "qrcode_detected"))
         {
             infoPanel.transform.GetChild(0).gameObject.GetComponent<TextMeshPro>().text = "QRCode Detection";
-            infoPanel.transform.GetChild(1).gameObject.GetComponent<TextMeshPro>().text = "Tag detected: " + myQRCodeManager.CheckNearQR() + ".\nPress 'Add box' to confirm or 'Back' to cancel";
+            infoPanel.transform.GetChild(1).gameObject.GetComponent<TextMeshPro>().text = "Tag detected: " + myQRCodeManager.CheckNearQR();
             //infoPanel.transform.GetChild(2).gameObject.SetActive(true);
         }
 
@@ -207,6 +208,20 @@ public class HandMenu : MonoBehaviour
         ShowInfoPanel("qrcode_detected");
     }
 
+    public void ShowQrMenu(Pose pose)
+	{
+        GameObject qrMenuParent = qrMenu.transform.parent.gameObject;
+        qrMenuParent.transform.position = pose.position;
+
+        Vector3 rot = pose.rotation.eulerAngles;
+        rot = new Vector3(rot.x, rot.y + 180, rot.z + 180);
+        qrMenuParent.transform.rotation = Quaternion.Euler(rot);
+
+        qrMenu.transform.GetChild(1).gameObject.GetComponent<TextMeshPro>().text = myQRCodeManager.CheckNearQR();
+
+        qrMenuParent.SetActive(true);
+    }
+
     public void AddBoxFromQR()
     {
         manager.GetComponent<SpawnBox>().Spawn();
@@ -223,6 +238,8 @@ public class HandMenu : MonoBehaviour
         repo.AddInfo(spawnedBox.name, "", qrData[0], qrData[1]);
 
         spawnedBox.GetComponent<Renderer>().material = transparentBlueMat;
+
+        qrMenu.transform.parent.gameObject.SetActive(false);
         EndSetInformation(false);
     }
 

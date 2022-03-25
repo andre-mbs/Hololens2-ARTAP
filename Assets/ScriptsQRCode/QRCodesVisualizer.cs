@@ -116,22 +116,22 @@ namespace QRTracking
                     if (action.type == ActionData.Type.Added)
                     {
 
-                        //GameObject qrCodeObject = Instantiate(qrCodePrefab, new Vector3(0, 0, 0), Quaternion.identity);
-                        GameObject qrCodeObject = qrCodePrefab;
+                        GameObject qrCodeObject = Instantiate(qrCodePrefab, new Vector3(0, 0, 0), Quaternion.identity);
+                        //GameObject qrCodeObject = qrCodePrefab;
                         qrCodeObject.SetActive(true);
                         qrCodeObject.GetComponent<SpatialGraphCoordinateSystem>().Id = action.qrCode.SpatialGraphNodeId;
-                        //qrCodeObject.GetComponent<QRCode>().qrCode = action.qrCode;
+                        qrCodeObject.GetComponent<QRCode>().qrCode = action.qrCode;
                         qrCodesObjectsList.Add(action.qrCode.Id, qrCodeObject); //QRcode added
                     }
                     else if (action.type == ActionData.Type.Updated)
                     {
                         if (!qrCodesObjectsList.ContainsKey(action.qrCode.Id))
                         {
-                            //GameObject qrCodeObject = Instantiate(qrCodePrefab, new Vector3(0, 0, 0), Quaternion.identity);
-                            GameObject qrCodeObject = qrCodePrefab;
+                            GameObject qrCodeObject = Instantiate(qrCodePrefab, new Vector3(0, 0, 0), Quaternion.identity);
+                            //GameObject qrCodeObject = qrCodePrefab;
                             qrCodeObject.SetActive(true);
                             qrCodeObject.GetComponent<SpatialGraphCoordinateSystem>().Id = action.qrCode.SpatialGraphNodeId;
-                            //qrCodeObject.GetComponent<QRCode>().qrCode = action.qrCode;
+                            qrCodeObject.GetComponent<QRCode>().qrCode = action.qrCode;
                             qrCodesObjectsList.Add(action.qrCode.Id, qrCodeObject);
                         }
 
@@ -142,6 +142,7 @@ namespace QRTracking
                             if(myQRCodeManager.AddQRCode(action.qrCode.Data, pose))
 							{
                                 //Debug.Log("New QRCode added to dict! -> " + action.qrCode.Data);
+                                handMenu.ShowQrMenu(pose);
                                 handMenu.EndQrDetection();
                                 myQRCodeManager.StopScan();
                             }
