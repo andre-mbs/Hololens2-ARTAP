@@ -11420,7 +11420,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &545508070
 Transform:
   m_ObjectHideFlags: 0
@@ -12254,6 +12254,7 @@ MonoBehaviour:
   setInformationFlag: 0
   visualizationMode: 0
   myQRCodeManager: {fileID: 2095001588}
+  head: {fileID: 1577749883}
 --- !u!1 &584413082
 GameObject:
   m_ObjectHideFlags: 0

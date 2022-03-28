@@ -31,6 +31,8 @@ public class HandMenu : MonoBehaviour
 
     public MyQRCodeManager myQRCodeManager;
 
+    public GameObject head;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -213,9 +215,8 @@ public class HandMenu : MonoBehaviour
         GameObject qrMenuParent = qrMenu.transform.parent.gameObject;
         qrMenuParent.transform.position = pose.position;
 
-        Vector3 rot = pose.rotation.eulerAngles;
-        rot = new Vector3(rot.x, rot.y + 180, rot.z + 180);
-        qrMenuParent.transform.rotation = Quaternion.Euler(rot);
+        Vector3 newRot = new Vector3(head.transform.rotation.x, head.transform.rotation.y, pose.rotation.z);
+        qrMenuParent.transform.rotation = Quaternion.Euler(newRot);
 
         qrMenu.transform.GetChild(1).gameObject.GetComponent<TextMeshPro>().text = myQRCodeManager.CheckNearQR();
 
