@@ -30,6 +30,8 @@ public class BoxTagInformation : MonoBehaviour
         this.partReference = partReference;
         this.partLocation = partLocation;
 
+        tagSet = true;
+
         toolTip.GetComponent<ToolTip>().ToolTipText = partReference;
     }
 

@@ -215,8 +215,13 @@ public class HandMenu : MonoBehaviour
         GameObject qrMenuParent = qrMenu.transform.parent.gameObject;
         qrMenuParent.transform.position = pose.position;
 
-        Vector3 newRot = new Vector3(head.transform.rotation.x, head.transform.rotation.y, pose.rotation.z);
-        qrMenuParent.transform.rotation = Quaternion.Euler(newRot);
+        //Vector3 newRot = new Vector3(qrMenuParent.transform.rotation.x, qrMenuParent.transform.rotation.y + 180, qrMenuParent.transform.rotation.z);
+        //qrMenuParent.transform.rotation = Quaternion.Euler(newRot);
+        //qrMenuParent.transform.LookAt(head.transform);
+        //or3 newRot = new Vector3(head.transform.rotation.x, pose.rotation.y, head.transform.rotation.z);
+
+        //qrMenuParent.transform.rotation = pose.rotation;
+        qrMenuParent.transform.LookAt(head.transform, Vector3.down);
 
         qrMenu.transform.GetChild(1).gameObject.GetComponent<TextMeshPro>().text = myQRCodeManager.CheckNearQR();
 
