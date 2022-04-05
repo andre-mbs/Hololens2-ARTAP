@@ -3733,7 +3733,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 223974226}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -3804,9 +3804,15 @@ MonoBehaviour:
   - 8-738-710-491
   - 8-738-707-357
   - 8-738-718-722
+  partsListDefault: []
+  partsList1: []
+  partsList2: []
   greenMat: {fileID: 2100000, guid: 4fb47c800fd48ea4ab3c2c604a89b526, type: 2}
   transparentBlackMat: {fileID: 2100000, guid: 00bbd2862c3dfa04b978edc5275855a1, type: 2}
   visualizationMode: 0
+  partsFileDefault: {fileID: 4900000, guid: 7757c1737a4445445b76708874057f62, type: 3}
+  partsFileList1: {fileID: 4900000, guid: a85c310b2c16a7a4bb842e2d8ce9fc89, type: 3}
+  partsFileList2: {fileID: 4900000, guid: ee94e0786af1e30478020a2e0a612cb7, type: 3}
 --- !u!1 &224748446
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,14 +10,23 @@ public class ShoppingList : MonoBehaviour
     public string[] list2;
     public string[] list3;
 
+    public List<string> partsListDefault;
+    public List<string> partsList1;
+    public List<string> partsList2;
+
     public Material greenMat;
     public Material transparentBlackMat;
 
     public bool visualizationMode;
+
+    public TextAsset partsFileDefault;
+    public TextAsset partsFileList1;
+    public TextAsset partsFileList2;
     // Start is called before the first frame update
     void Start()
     {
-        
+        Debug.Log("Read File");
+        LoadList();
     }
 
     // Update is called once per frame
@@ -65,6 +74,11 @@ public class ShoppingList : MonoBehaviour
 
     public void LoadList()
 	{
-
+        string[] lines = partsFileList1.text.Split('\n');
+        foreach(string line in lines)
+		{
+            partsList1.Add(line.Split(';')[0]);
+		}
+        Debug.Log(lines[0]);
 	}
 }
