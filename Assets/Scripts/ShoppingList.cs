@@ -25,8 +25,8 @@ public class ShoppingList : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Read File");
-        LoadList();
+        //Debug.Log("Read File");
+        LoadLists();
     }
 
     // Update is called once per frame
@@ -35,50 +35,60 @@ public class ShoppingList : MonoBehaviour
         
     }
 
-    public void EnableListItems(string list)
+    public void EnableListItems(int index)
 	{
         foreach (GameObject b in repo.boxesList)
         {
             b.GetComponent<Renderer>().material = transparentBlackMat;
         }
-        string[] selectedList;
-		switch (list)
-		{
-            case "list1":
-                selectedList = list1;
+
+        List<string> selectedList;
+        switch (index)
+        {
+            case 1:
+                selectedList = partsList1;
                 break;
-            case "list2":
-                selectedList = list2;
-                break;
-            case "list3":
-                selectedList = list3;
+            case 2:
+                selectedList = partsList2;
                 break;
             default:
-                selectedList = list1;
+                selectedList = partsListDefault;
                 break;
         }
 
-        foreach(string part in selectedList)
-		{
-            string boxName = repo.GetByReference(part);
+        foreach (string part in selectedList)
+        {
+            //string boxName = repo.GetByReference(part);
             foreach (GameObject b in repo.boxesList)
             {
-                if (b.name == boxName)
-				{
+                if (b.GetComponent<BoxTagInformation>().partReference == part)
+                {
                     b.GetComponent<Renderer>().material = greenMat;
-				}
+                }
                 b.SetActive(true);
             }
         }
     }
 
-    public void LoadList()
+    public void LoadLists()
 	{
-        string[] lines = partsFileList1.text.Split('\n');
-        foreach(string line in lines)
+        string[] lines = partsFileDefault.text.Split('\n');
+
+        foreach (string line in lines)
+        {
+            partsListDefault.Add(line.Split(';')[0]);
+        }
+
+        lines = partsFileList1.text.Split('\n');
+        foreach (string line in lines)
 		{
             partsList1.Add(line.Split(';')[0]);
-		}
-        Debug.Log(lines[0]);
-	}
+        }
+
+        lines = partsFileList2.text.Split('\n');
+        foreach (string line in lines)
+        {
+            partsList2.Add(line.Split(';')[0]);
+        }
+    }
 }
