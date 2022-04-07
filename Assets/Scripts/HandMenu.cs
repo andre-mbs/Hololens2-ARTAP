@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Microsoft.MixedReality.Toolkit.UI;
+using Microsoft.MixedReality.Toolkit.Utilities;
 using TMPro;
 
 public class HandMenu : MonoBehaviour
@@ -28,6 +29,18 @@ public class HandMenu : MonoBehaviour
     public bool showPartsListFlag;
     public bool setInformationFlag;
     public bool visualizationMode;
+    public bool userTestsMode;
+
+    public TextAsset partsListDefaultFile;
+    public TextAsset partsListUserTestFile;
+
+    public Dictionary<string, string[]> partsListDefault;
+    public Dictionary<string, string[]> partsListUserTest;
+
+    private List<GameObject> partsListButtonsDefault;
+    private List<GameObject> partsListButtonsUserTest;
+
+    public GameObject partsListButtonPrefab;
 
     public MyQRCodeManager myQRCodeManager;
 
@@ -37,6 +50,13 @@ public class HandMenu : MonoBehaviour
     void Start()
     {
         selectedMenu = mainMenu;
+
+        partsListDefault = new Dictionary<string, string[]>();
+        partsListUserTest = new Dictionary<string, string[]>();
+        partsListButtonsDefault = new List<GameObject>();
+        partsListButtonsUserTest = new List<GameObject>();
+
+        LoadPartsLists();
     }
 
     // Update is called once per frame
@@ -91,6 +111,11 @@ public class HandMenu : MonoBehaviour
             }
             b.SetActive(true);
         }
+
+		if (userTestsMode)
+		{
+
+		}
 
         selectedMenu = configurationMenu;
         EnableMenu();
@@ -264,5 +289,58 @@ public class HandMenu : MonoBehaviour
         {
             b.GetComponent<ObjectManipulator>().ManipulationType = 0;
         }
+    }
+
+    public void ToggleCheckBoxState()
+	{
+        userTestsMode = !userTestsMode;
+
+		if (userTestsMode)
+		{
+            foreach(GameObject btn in partsListButtonsDefault)
+			{
+                btn.SetActive(false);
+			}
+            foreach (GameObject btn in partsListButtonsUserTest)
+            {
+                btn.SetActive(true);
+            }
+        }else{
+            foreach (GameObject btn in partsListButtonsDefault)
+            {
+                btn.SetActive(true);
+            }
+            foreach (GameObject btn in partsListButtonsUserTest)
+            {
+                btn.SetActive(false);
+            }
+        }
+        partsListMenu.transform.GetChild(0).gameObject.GetComponent<GridObjectCollection>().UpdateCollection();
+    }
+
+    public void LoadPartsLists()
+	{
+        string[] lines = partsListDefaultFile.text.Split('\n');
+        foreach (string line in lines)
+        {
+            string[] fields = line.Split(';');
+
+            GameObject spawnedButton = Instantiate(partsListButtonPrefab, partsListMenu.transform.GetChild(0));
+            spawnedButton.GetComponent<PartsListButton>().UpdateButtonInfo(fields[1], fields[0], fields[2]);
+            partsListButtonsDefault.Add(spawnedButton);
+        }
+
+        lines = partsListUserTestFile.text.Split('\n');
+        foreach (string line in lines)
+        {
+            string[] fields = line.Split(';');
+
+            GameObject spawnedButton = Instantiate(partsListButtonPrefab, partsListMenu.transform.GetChild(0));
+            spawnedButton.SetActive(false);
+            spawnedButton.GetComponent<PartsListButton>().UpdateButtonInfo(fields[1], fields[0], fields[2]);
+            partsListButtonsUserTest.Add(spawnedButton);
+        }
+
+        partsListMenu.transform.GetChild(0).gameObject.GetComponent<GridObjectCollection>().UpdateCollection();
     }
 }

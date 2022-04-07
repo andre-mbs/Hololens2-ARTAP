@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Microsoft.MixedReality.Toolkit.UI;
 
 public class PartsListButton : MonoBehaviour
 {
@@ -13,7 +14,8 @@ public class PartsListButton : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        repo = GameObject.Find("Manager").GetComponent<BoxInformationRepo>();
+        handMenu = GameObject.Find("HandMenu").GetComponent<HandMenu>();
     }
 
     // Update is called once per frame
@@ -40,5 +42,14 @@ public class PartsListButton : MonoBehaviour
         repo.RemoveInfo(handMenu.selectedBox.name);
 
         handMenu.EndSetInformation(false);
+    }
+
+    public void UpdateButtonInfo(string partName, string partRef, string partLocation)
+	{
+        this.partName = partName;
+        this.partReference = partRef;
+        this.partLocation = partLocation;
+
+        gameObject.GetComponent<ButtonConfigHelper>().MainLabelText = partRef + "\n" + partName + "\n" + partLocation;
     }
 }

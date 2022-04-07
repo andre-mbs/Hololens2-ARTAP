@@ -35,6 +35,7 @@ public class BoxInformationRepo : MonoBehaviour
     public void RemoveBox(GameObject box)
 	{
         boxesList.Remove(box);
+        RemoveInfo(box.name);
 	}
 
     public void AddInfo(string boxName, string partName, string partReference, string partLocation)
