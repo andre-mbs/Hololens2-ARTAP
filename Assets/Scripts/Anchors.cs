@@ -7,9 +7,12 @@ using UnityEngine.XR.WSA;
 public class Anchors : MonoBehaviour
 {
     public GameObject selectedObject;
+    public HandMenu handMenu;
+    public SceneSelector sceneSelector;
+    public BoxInformationRepo repo;
     private string anchorId;
     private WorldAnchorStore store;
-    private bool isStoreLoaded;
+    public bool isStoreLoaded;
 
     // Start is called before the first frame update
     void Start()
@@ -21,15 +24,20 @@ public class Anchors : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		if (isStoreLoaded)
+		if (isStoreLoaded && (handMenu.configurationMode || handMenu.visualizationMode))
 		{
             Debug.Log(store.anchorCount.ToString() + " anchors on store");
 
             foreach (string anchorId in store.GetAllIds())
             {
-                gameObject.GetComponent<SpawnBox>().Spawn(anchorId);
-                LoadAnchor(anchorId);
+                //Debug.Log(anchorId + " -> " + PlayerPrefs.GetInt(anchorId + "_scene"));
 
+                if (PlayerPrefs.GetInt(anchorId + "_scene") == sceneSelector.selectedScene && !repo.ContainsBoxByName(anchorId))
+				{
+                    //Debug.Log(anchorId + " spawned in scene " + sceneSelector.selectedScene);
+                    gameObject.GetComponent<SpawnBox>().Spawn(anchorId);
+                    LoadAnchor(anchorId);
+				}
             }
 
             isStoreLoaded = false;
@@ -49,6 +57,7 @@ public class Anchors : MonoBehaviour
             Debug.Log(gameObjName + " anchor saved");
             WorldAnchor anchor = selectedObject.AddComponent<WorldAnchor>();
             store.Save(gameObjName, anchor);
+            PlayerPrefs.SetInt(gameObjName + "_scene", sceneSelector.selectedScene);
 		}
         
 	}
@@ -57,7 +66,7 @@ public class Anchors : MonoBehaviour
 	{
         Debug.Log(anchorId + " anchor loaded");
         store.Load(anchorId, GameObject.Find(anchorId));
-        GameObject.Find(anchorId).SetActive(false);
+        //GameObject.Find(anchorId).SetActive(false);
     }
 
     public void DeleteAnchor(string gameObjName)

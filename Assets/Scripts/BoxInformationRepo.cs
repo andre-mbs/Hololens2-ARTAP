@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class BoxInformationRepo : MonoBehaviour
 {
+    public List<GameObject> allBoxesList;
     public List<GameObject> boxesList;
+    public SceneSelector sceneSelector;
+
     private Dictionary<string, string[]> repo;
+
     // Start is called before the first frame update
     void Start()
     {
         boxesList = new List<GameObject>();
+        allBoxesList = new List<GameObject>();
         repo = new Dictionary<string, string[]>();
     }
 
@@ -21,20 +26,23 @@ public class BoxInformationRepo : MonoBehaviour
 
     public void AddBox(GameObject box)
 	{
-        Debug.Log(box.name + " added");
+        Debug.Log("REPO: " + box.name + " added");
+        allBoxesList.Add(box);
         boxesList.Add(box);
         if (PlayerPrefs.HasKey(box.name))
         {
             string[] boxInfo = PlayerPrefs.GetString(box.name).Split(';');
             repo.Add(box.name, boxInfo);
-            Debug.Log("Info found for " + box.name + "->" + boxInfo[0] + ";" + boxInfo[1] + ";" +boxInfo[2]);
+            Debug.Log("REPO: " + "Info found for " + box.name + "->" + boxInfo[0] + ";" + boxInfo[1] + ";" +boxInfo[2]);
             box.GetComponent<BoxTagInformation>().UpdateInfo(boxInfo[0], boxInfo[1], boxInfo[2]);
         }
 	}
 
     public void RemoveBox(GameObject box)
 	{
+        allBoxesList.Remove(box);
         boxesList.Remove(box);
+        PlayerPrefs.DeleteKey(box.name+"_scene");
         RemoveInfo(box.name);
 	}
 
@@ -50,7 +58,7 @@ public class BoxInformationRepo : MonoBehaviour
         repo.Add(boxName, valueArray);
         PlayerPrefs.SetString(boxName, valueString);
 
-        Debug.Log("Info saved: " + boxName + "->" + valueString);
+        //Debug.Log("REPO: " + "Info saved: " + boxName + "->" + valueString);
 	}
 
     public void RemoveInfo(string boxName)
@@ -71,5 +79,29 @@ public class BoxInformationRepo : MonoBehaviour
 		}
 
         return box;
+	}
+
+    public void UpdateSceneBoxesList()
+	{
+        boxesList.Clear();
+        foreach(GameObject b in allBoxesList)
+		{
+            if(PlayerPrefs.GetInt(b.name + "_scene") == sceneSelector.selectedScene)
+			{
+                boxesList.Add(b);
+			}
+		}
+	}
+
+    public bool ContainsBoxByName(string name)
+	{
+        foreach(GameObject b in allBoxesList)
+		{
+            if(b.name == name)
+			{
+                return true;
+			}
+		}
+        return false;
 	}
 }

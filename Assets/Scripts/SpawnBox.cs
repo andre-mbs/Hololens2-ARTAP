@@ -27,8 +27,9 @@ public class SpawnBox : MonoBehaviour
 		Vector3 position = headPos + head.transform.forward * 0.6f;
 		GameObject spawnedBox = Instantiate(boxPrefab, position, transform.rotation);
 		lastSpawnedBox = spawnedBox;
-		while (GameObject.Find("box" + cnt.ToString()) != null)
+		while (PlayerPrefs.GetInt("box" + cnt.ToString() + "_scene", -1) != -1)
 		{
+			//Debug.Log("SPAWN: id already in use: " + "box" + cnt.ToString());
 			cnt++;
 		}
 		spawnedBox.name = "box" + cnt.ToString();

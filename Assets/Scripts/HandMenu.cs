@@ -28,14 +28,12 @@ public class HandMenu : MonoBehaviour
     public bool removeBoxFlag;
     public bool showPartsListFlag;
     public bool setInformationFlag;
+    public bool configurationMode;
     public bool visualizationMode;
     public bool userTestsMode;
 
     public TextAsset partsListDefaultFile;
     public TextAsset partsListUserTestFile;
-
-    public Dictionary<string, string[]> partsListDefault;
-    public Dictionary<string, string[]> partsListUserTest;
 
     private List<GameObject> partsListButtonsDefault;
     private List<GameObject> partsListButtonsUserTest;
@@ -51,8 +49,6 @@ public class HandMenu : MonoBehaviour
     {
         selectedMenu = mainMenu;
 
-        partsListDefault = new Dictionary<string, string[]>();
-        partsListUserTest = new Dictionary<string, string[]>();
         partsListButtonsDefault = new List<GameObject>();
         partsListButtonsUserTest = new List<GameObject>();
 
@@ -76,6 +72,9 @@ public class HandMenu : MonoBehaviour
 
         selectedMenu = mainMenu;
         visualizationMode = false;
+        configurationMode = false;
+
+        manager.GetComponent<Anchors>().isStoreLoaded = true;
         EnableMenu();
     }
 
@@ -97,6 +96,7 @@ public class HandMenu : MonoBehaviour
 
     public void StartConfiguration()
     {
+        repo.UpdateSceneBoxesList();
         foreach (GameObject b in repo.boxesList)
         {
             b.GetComponent<MoveAxisConstraint>().enabled = false;
@@ -112,17 +112,14 @@ public class HandMenu : MonoBehaviour
             b.SetActive(true);
         }
 
-		if (userTestsMode)
-		{
-
-		}
-
         selectedMenu = configurationMenu;
+        configurationMode = true;
         EnableMenu();
     }
 
     public void StartVisualization()
     {
+        repo.UpdateSceneBoxesList();
         foreach (GameObject b in repo.boxesList)
         {
             b.GetComponent<MoveAxisConstraint>().enabled = true;

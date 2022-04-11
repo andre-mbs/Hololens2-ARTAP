@@ -53,7 +53,7 @@ namespace QRTracking
         // Use this for initialization
         void Start()
         {
-            Debug.Log("QRCodesVisualizer start");
+            //Debug.Log("QRCodesVisualizer start");
             qrCodesObjectsList = new SortedDictionary<System.Guid, GameObject>();
 
             // listen to any event changes on QRCOdeManager
@@ -78,7 +78,7 @@ namespace QRTracking
         // listen to QRCodesManager changes on QRCodeVisualizer
         private void Instance_QRCodeAdded(object sender, QRCodeEventArgs<Microsoft.MixedReality.QR.QRCode> e)
         {
-            Debug.Log("QRCodesVisualizer Instance_QRCodeAdded");
+            //Debug.Log("QRCodesVisualizer Instance_QRCodeAdded");
 
             lock (pendingActions)
             {
@@ -88,7 +88,7 @@ namespace QRTracking
 
         private void Instance_QRCodeUpdated(object sender, QRCodeEventArgs<Microsoft.MixedReality.QR.QRCode> e)
         {
-            Debug.Log("QRCodesVisualizer Instance_QRCodeUpdated");
+            //Debug.Log("QRCodesVisualizer Instance_QRCodeUpdated");
 
             lock (pendingActions)
             {
@@ -98,7 +98,7 @@ namespace QRTracking
 
         private void Instance_QRCodeRemoved(object sender, QRCodeEventArgs<Microsoft.MixedReality.QR.QRCode> e)
         {
-            Debug.Log("QRCodesVisualizer Instance_QRCodeRemoved");
+            //Debug.Log("QRCodesVisualizer Instance_QRCodeRemoved");
 
             lock (pendingActions)
             {

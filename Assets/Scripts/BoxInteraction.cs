@@ -21,7 +21,7 @@ public class BoxInteraction : MonoBehaviour
 	}
 	public void BeginInteraction()
 	{
-		Debug.Log(name + " anchor deleted");
+		//Debug.Log("BOXINTERACTION: " + name + " anchor deleted");
 		managerAnchors.selectedObject = gameObject;
 		managerAnchors.DeleteAnchor(name);
 	}
@@ -36,7 +36,7 @@ public class BoxInteraction : MonoBehaviour
 	{
 		if (handMenu.removeBoxFlag)
 		{
-			Debug.Log(name + " deleted");
+			//Debug.Log(name + " deleted");
 			managerAnchors.DeleteAnchor(name);
 			handMenu.removeBoxFlag = false;
 			handMenu.SetMenu(handMenu.configurationMenu);
