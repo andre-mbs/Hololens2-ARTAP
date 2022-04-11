@@ -6,6 +6,7 @@ using Microsoft.MixedReality.Toolkit.UI;
 public class BoxInteraction : MonoBehaviour
 {
 	private Anchors managerAnchors;
+	private ShoppingList managerShoppingList;
 	private BoxInformationRepo repo;
 	public HandMenu handMenu;
 	public GameObject partsListGo;
@@ -16,6 +17,7 @@ public class BoxInteraction : MonoBehaviour
 	private void Start()
 	{
 		managerAnchors = GameObject.Find("Manager").GetComponent<Anchors>();
+		managerShoppingList = GameObject.Find("Manager").GetComponent<ShoppingList>();
 		repo = GameObject.Find("Manager").GetComponent<BoxInformationRepo>();
 		handMenu = GameObject.Find("HandMenu").GetComponent<HandMenu>();
 	}
@@ -87,7 +89,12 @@ public class BoxInteraction : MonoBehaviour
 	{
 		if (handMenu.visualizationMode)
 		{
-			gameObject.GetComponent<Renderer>().material = transparentBlackMat;
+			Debug.Log("Box Ref: " + gameObject.GetComponent<BoxTagInformation>().partReference + "; Next Ref: " + managerShoppingList.boxToPickRef);
+			if (gameObject.GetComponent<BoxTagInformation>().partReference == managerShoppingList.boxToPickRef)
+			{
+				gameObject.GetComponent<Renderer>().material = transparentBlackMat;
+				managerShoppingList.UpdateNextBoxRef();
+			}
 		}
 	}
 }

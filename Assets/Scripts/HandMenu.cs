@@ -31,6 +31,7 @@ public class HandMenu : MonoBehaviour
     public bool configurationMode;
     public bool visualizationMode;
     public bool userTestsMode;
+    public bool seqPickMode;
 
     public TextAsset partsListDefaultFile;
     public TextAsset partsListUserTestFile;
@@ -314,6 +315,11 @@ public class HandMenu : MonoBehaviour
         }
         partsListMenu.transform.GetChild(0).gameObject.GetComponent<GridObjectCollection>().UpdateCollection();
     }
+
+    public void ToggleSequencialPicking()
+	{
+        seqPickMode = !seqPickMode;
+	}
 
     public void LoadPartsLists()
 	{

@@ -6,18 +6,17 @@ public class ShoppingList : MonoBehaviour
 {
     public BoxInformationRepo repo;
 
-    public string[] list1;
-    public string[] list2;
-    public string[] list3;
-
     public List<string> partsListDefault;
     public List<string> partsList1;
     public List<string> partsList2;
 
+    private List<string> selectedList;
+
+    public string boxToPickRef;
+    private int boxToPickIndex;
+
     public Material greenMat;
     public Material transparentBlackMat;
-
-    public bool visualizationMode;
 
     public TextAsset partsFileDefault;
     public TextAsset partsFileList1;
@@ -42,7 +41,6 @@ public class ShoppingList : MonoBehaviour
             b.GetComponent<Renderer>().material = transparentBlackMat;
         }
 
-        List<string> selectedList;
         switch (index)
         {
             case 1:
@@ -56,18 +54,29 @@ public class ShoppingList : MonoBehaviour
                 break;
         }
 
-        foreach (string part in selectedList)
+        foreach (GameObject b in repo.boxesList)
         {
-            //string boxName = repo.GetByReference(part);
-            foreach (GameObject b in repo.boxesList)
+            if (b.GetComponent<BoxTagInformation>().partReference == selectedList[0])
             {
-                if (b.GetComponent<BoxTagInformation>().partReference == part)
-                {
-                    b.GetComponent<Renderer>().material = greenMat;
-                }
-                b.SetActive(true);
+                b.GetComponent<Renderer>().material = greenMat;
+                boxToPickIndex = 0;
+                boxToPickRef = selectedList[0];
             }
+            b.SetActive(true);
         }
+
+        //foreach (string part in selectedList)
+        //{
+        //    //string boxName = repo.GetByReference(part);
+        //    foreach (GameObject b in repo.boxesList)
+        //    {
+        //        if (b.GetComponent<BoxTagInformation>().partReference == part)
+        //        {
+        //            b.GetComponent<Renderer>().material = greenMat;
+        //        }
+        //        b.SetActive(true);
+        //    }
+        //}
     }
 
     public void LoadLists()
@@ -89,6 +98,21 @@ public class ShoppingList : MonoBehaviour
         foreach (string line in lines)
         {
             partsList2.Add(line.Split(';')[0]);
+        }
+    }
+
+    public void UpdateNextBoxRef()
+	{
+        boxToPickIndex++;
+        boxToPickRef = selectedList[boxToPickIndex];
+
+        foreach (GameObject b in repo.boxesList)
+        {
+            if (b.GetComponent<BoxTagInformation>().partReference == boxToPickRef)
+            {
+                b.GetComponent<Renderer>().material = greenMat;
+            }
+            b.SetActive(true);
         }
     }
 }
