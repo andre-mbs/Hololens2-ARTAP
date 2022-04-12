@@ -89,11 +89,18 @@ public class BoxInteraction : MonoBehaviour
 	{
 		if (handMenu.visualizationMode)
 		{
-			Debug.Log("Box Ref: " + gameObject.GetComponent<BoxTagInformation>().partReference + "; Next Ref: " + managerShoppingList.boxToPickRef);
-			if (gameObject.GetComponent<BoxTagInformation>().partReference == managerShoppingList.boxToPickRef)
+			//Debug.Log("Box Ref: " + gameObject.GetComponent<BoxTagInformation>().partReference + "; Next Ref: " + managerShoppingList.boxToPickRef);
+			if (handMenu.seqPickMode)
+			{
+				if (gameObject.GetComponent<BoxTagInformation>().partReference == managerShoppingList.boxToPickRef)
+				{
+					gameObject.GetComponent<Renderer>().material = transparentBlackMat;
+					managerShoppingList.UpdateNextBoxRef();
+				}
+			}
+			else
 			{
 				gameObject.GetComponent<Renderer>().material = transparentBlackMat;
-				managerShoppingList.UpdateNextBoxRef();
 			}
 		}
 	}

@@ -5,6 +5,7 @@ using UnityEngine;
 public class ShoppingList : MonoBehaviour
 {
     public BoxInformationRepo repo;
+    public HandMenu handMenu;
 
     public List<string> partsListDefault;
     public List<string> partsList1;
@@ -54,32 +55,37 @@ public class ShoppingList : MonoBehaviour
                 break;
         }
 
-        foreach (GameObject b in repo.boxesList)
-        {
-            if (b.GetComponent<BoxTagInformation>().partReference == selectedList[0])
+		if (handMenu.seqPickMode)
+		{
+            foreach (GameObject b in repo.boxesList)
             {
-                b.GetComponent<Renderer>().material = greenMat;
-                boxToPickIndex = 0;
-                boxToPickRef = selectedList[0];
+                if (b.GetComponent<BoxTagInformation>().partReference == selectedList[0])
+                {
+                    b.GetComponent<Renderer>().material = greenMat;
+                    boxToPickIndex = 0;
+                    boxToPickRef = selectedList[0];
+                }
+                b.SetActive(true);
             }
-            b.SetActive(true);
-        }
+		}
+		else
+		{
+            foreach (string part in selectedList)
+		    {
+			    //string boxName = repo.GetByReference(part);
+			    foreach (GameObject b in repo.boxesList)
+			    {
+				    if (b.GetComponent<BoxTagInformation>().partReference == part)
+				    {
+					    b.GetComponent<Renderer>().material = greenMat;
+				    }
+				    b.SetActive(true);
+			    }
+		    }
+		}
+	}
 
-        //foreach (string part in selectedList)
-        //{
-        //    //string boxName = repo.GetByReference(part);
-        //    foreach (GameObject b in repo.boxesList)
-        //    {
-        //        if (b.GetComponent<BoxTagInformation>().partReference == part)
-        //        {
-        //            b.GetComponent<Renderer>().material = greenMat;
-        //        }
-        //        b.SetActive(true);
-        //    }
-        //}
-    }
-
-    public void LoadLists()
+	public void LoadLists()
 	{
         string[] lines = partsFileDefault.text.Split('\n');
 
