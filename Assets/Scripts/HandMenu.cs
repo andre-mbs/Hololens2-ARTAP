@@ -102,6 +102,7 @@ public class HandMenu : MonoBehaviour
         {
             b.GetComponent<MoveAxisConstraint>().enabled = false;
             b.GetComponent<RotationAxisConstraint>().enabled = false;
+            b.GetComponent<ObjectManipulator>().AllowFarManipulation = true;
             if (b.GetComponent<BoxTagInformation>().tagSet)
 			{
                 b.GetComponent<Renderer>().material = transparentBlueMat;
@@ -125,6 +126,7 @@ public class HandMenu : MonoBehaviour
         {
             b.GetComponent<MoveAxisConstraint>().enabled = true;
             b.GetComponent<RotationAxisConstraint>().enabled = true;
+            b.GetComponent<ObjectManipulator>().AllowFarManipulation = false;
             b.GetComponent<Renderer>().material = transparentBlackMat;
         }
 
