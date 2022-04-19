@@ -14,12 +14,15 @@ public class BoxInteraction : MonoBehaviour
 	public Material transparentBlueMat;
 	public Material transparentBlackMat;
 
+	private UserTestsLog userTestsLog;
+
 	private void Start()
 	{
 		managerAnchors = GameObject.Find("Manager").GetComponent<Anchors>();
 		managerShoppingList = GameObject.Find("Manager").GetComponent<ShoppingList>();
 		repo = GameObject.Find("Manager").GetComponent<BoxInformationRepo>();
 		handMenu = GameObject.Find("HandMenu").GetComponent<HandMenu>();
+		userTestsLog = GameObject.Find("Manager").GetComponent<UserTestsLog>();
 	}
 	public void BeginInteraction()
 	{
@@ -95,13 +98,29 @@ public class BoxInteraction : MonoBehaviour
 				if (gameObject.GetComponent<BoxTagInformation>().partReference == managerShoppingList.boxToPickRef)
 				{
 					gameObject.GetComponent<Renderer>().material = transparentBlackMat;
-					managerShoppingList.UpdateNextBoxRef();
+
+					if(gameObject.GetComponent<BoxTagInformation>().partReference != managerShoppingList.lastBoxToPickRef)
+					{
+						managerShoppingList.UpdateNextBoxRef();
+					}
 				}
 			}
 			else
 			{
 				gameObject.GetComponent<Renderer>().material = transparentBlackMat;
 			}
+
+			userTestsLog.StopTimer();
+
+			if(gameObject.GetComponent<BoxTagInformation>().partReference != managerShoppingList.lastBoxToPickRef)
+			{
+				userTestsLog.StartTimer(false);
+			}
+			else
+			{
+				userTestsLog.WriteToFile();
+			}
+			
 		}
 	}
 }

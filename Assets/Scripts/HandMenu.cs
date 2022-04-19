@@ -97,6 +97,7 @@ public class HandMenu : MonoBehaviour
 
     public void StartConfiguration()
     {
+        configurationMode = true;
         repo.UpdateSceneBoxesList();
         foreach (GameObject b in repo.boxesList)
         {
@@ -115,13 +116,15 @@ public class HandMenu : MonoBehaviour
         }
 
         selectedMenu = configurationMenu;
-        configurationMode = true;
         EnableMenu();
     }
 
     public void StartVisualization()
     {
+        visualizationMode = true;
         repo.UpdateSceneBoxesList();
+        Debug.Log("allBoxesList size" + repo.allBoxesList.Count);
+        Debug.Log("boxesList size" + repo.boxesList.Count);
         foreach (GameObject b in repo.boxesList)
         {
             b.GetComponent<MoveAxisConstraint>().enabled = true;
@@ -131,7 +134,6 @@ public class HandMenu : MonoBehaviour
         }
 
         selectedMenu = visualizationMenu;
-        visualizationMode = true;
         EnableMenu();
     }
 
@@ -347,5 +349,5 @@ public class HandMenu : MonoBehaviour
         }
 
         partsListMenu.transform.GetChild(0).gameObject.GetComponent<GridObjectCollection>().UpdateCollection();
-    }
+    }    
 }

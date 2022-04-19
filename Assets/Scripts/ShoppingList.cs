@@ -10,10 +10,12 @@ public class ShoppingList : MonoBehaviour
     public List<string> partsListDefault;
     public List<string> partsList1;
     public List<string> partsList2;
+    public List<string> partsList3;
 
     private List<string> selectedList;
 
     public string boxToPickRef;
+    public string lastBoxToPickRef;
     private int boxToPickIndex;
 
     public Material greenMat;
@@ -22,6 +24,9 @@ public class ShoppingList : MonoBehaviour
     public TextAsset partsFileDefault;
     public TextAsset partsFileList1;
     public TextAsset partsFileList2;
+    public TextAsset partsFileList3;
+
+    public UserTestsLog userTestsLog;
     // Start is called before the first frame update
     void Start()
     {
@@ -50,12 +55,16 @@ public class ShoppingList : MonoBehaviour
             case 2:
                 selectedList = partsList2;
                 break;
+            case 3:
+                selectedList = partsList3;
+                break;
             default:
                 selectedList = partsListDefault;
                 break;
         }
 
-		if (handMenu.seqPickMode)
+        lastBoxToPickRef = selectedList[selectedList.Count-1];
+        if (handMenu.seqPickMode)
 		{
             foreach (GameObject b in repo.boxesList)
             {
@@ -83,7 +92,9 @@ public class ShoppingList : MonoBehaviour
 			    }
 		    }
 		}
-	}
+
+        userTestsLog.StartTimer(true);
+    }
 
 	public void LoadLists()
 	{
@@ -104,6 +115,12 @@ public class ShoppingList : MonoBehaviour
         foreach (string line in lines)
         {
             partsList2.Add(line.Split(';')[0]);
+        }
+
+        lines = partsFileList3.text.Split('\n');
+        foreach (string line in lines)
+        {
+            partsList3.Add(line.Split(';')[0]);
         }
     }
 
