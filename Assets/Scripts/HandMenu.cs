@@ -45,6 +45,8 @@ public class HandMenu : MonoBehaviour
 
     public GameObject head;
 
+    private string productName;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -82,6 +84,10 @@ public class HandMenu : MonoBehaviour
     public void EnableMenu()
 	{
         DisableAll();
+		if (!visualizationMode)
+		{
+            infoPanel.transform.GetChild(2).gameObject.SetActive(false);
+        }
         selectedMenu.SetActive(true);
         
 	}
@@ -123,12 +129,13 @@ public class HandMenu : MonoBehaviour
     {
         visualizationMode = true;
         repo.UpdateSceneBoxesList();
-        Debug.Log("allBoxesList size" + repo.allBoxesList.Count);
-        Debug.Log("boxesList size" + repo.boxesList.Count);
+        //Debug.Log("allBoxesList size" + repo.allBoxesList.Count);
+        //Debug.Log("boxesList size" + repo.boxesList.Count);
         foreach (GameObject b in repo.boxesList)
         {
             b.GetComponent<MoveAxisConstraint>().enabled = true;
             b.GetComponent<RotationAxisConstraint>().enabled = true;
+            b.GetComponent<ObjectManipulator>().enabled = true;
             b.GetComponent<ObjectManipulator>().AllowFarManipulation = false;
             b.GetComponent<Renderer>().material = transparentBlackMat;
         }
@@ -190,6 +197,13 @@ public class HandMenu : MonoBehaviour
             infoPanel.transform.GetChild(0).gameObject.GetComponent<TextMeshPro>().text = "QRCode Detection";
             infoPanel.transform.GetChild(1).gameObject.GetComponent<TextMeshPro>().text = "Tag detected: " + myQRCodeManager.CheckNearQR();
             //infoPanel.transform.GetChild(2).gameObject.SetActive(true);
+        }
+        else if (string.Equals(panel, "part_picking"))
+        {
+            infoPanel.transform.GetChild(0).gameObject.GetComponent<TextMeshPro>().text = "Kit Assembly";
+            infoPanel.transform.GetChild(1).gameObject.GetComponent<TextMeshPro>().text = productName + " selected.";
+            //infoPanel.transform.GetChild(2).gameObject.SetActive(true);
+            infoPanel.transform.GetChild(2).gameObject.SetActive(true);
         }
 
         selectedMenu = infoPanel;
@@ -349,5 +363,13 @@ public class HandMenu : MonoBehaviour
         }
 
         partsListMenu.transform.GetChild(0).gameObject.GetComponent<GridObjectCollection>().UpdateCollection();
-    }    
+    }
+    
+    public void SelectProduct(string productName)
+	{
+        this.productName = productName;
+        ShowInfoPanel("part_picking");
+
+        infoPanel.transform.GetChild(2).gameObject.transform.GetChild(0).gameObject.GetComponent<ProgressBar>().ResetProgress();
+	}
 }

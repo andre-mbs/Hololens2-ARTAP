@@ -17,14 +17,15 @@ public class UserTestsLog : MonoBehaviour
     void Start()
     {
         stopwatch = new Stopwatch();
-        path = Path.Combine(Application.persistentDataPath, "UsertTests.txt");
+        path = Path.Combine(Application.persistentDataPath, "UsertTests_BOSCH.txt");
 		if (!File.Exists(path))
 		{
 			using (StreamWriter writer = new StreamWriter(path, true))
 			{
-                userTestsLine = "time_part1; time_part2; time_part3; time_part4; time_part5; time_part6; time_part7; time_part8; time_part9";
+                //userTestsLine = "time_part1; time_part2; time_part3; time_part4; time_part5; time_part6; time_part7; time_part8; time_part9";
+                userTestsLine = "Kit0; Kit1; time_part3; time_part4; time_part5; time_part6; time_part7; time_part8; time_part9";
                 writer.WriteLine(userTestsLine);
-                writer.Close();
+                //writer.Close();
             }
 		}
 		else
@@ -56,6 +57,11 @@ public class UserTestsLog : MonoBehaviour
         userTestsLine += elapsedTime.ToString() + ";";
         stopwatch.Reset();
     }
+
+    public void SetKitName(string kitName)
+	{
+        userTestsLine += kitName + ";";
+	}
     public void WriteToFile()
     {
         Debug.Log("LOGS: " + userTestsLine);
@@ -63,7 +69,7 @@ public class UserTestsLog : MonoBehaviour
         using (StreamWriter writer = new StreamWriter(path, true))
         {
             writer.WriteLine(userTestsLine);
-            writer.Close();
+            //writer.Close();
         }
     }
 }

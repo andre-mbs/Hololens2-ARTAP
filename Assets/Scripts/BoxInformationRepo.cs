@@ -26,14 +26,14 @@ public class BoxInformationRepo : MonoBehaviour
 
     public void AddBox(GameObject box)
 	{
-        Debug.Log("REPO: " + box.name + " added");
+        //Debug.Log("REPO: " + box.name + " added");
         allBoxesList.Add(box);
         boxesList.Add(box);
         if (PlayerPrefs.HasKey(box.name))
         {
             string[] boxInfo = PlayerPrefs.GetString(box.name).Split(';');
             repo.Add(box.name, boxInfo);
-            Debug.Log("REPO: " + "Info found for " + box.name + "->" + boxInfo[0] + ";" + boxInfo[1] + ";" +boxInfo[2]);
+            //Debug.Log("REPO: " + "Info found for " + box.name + "->" + boxInfo[0] + ";" + boxInfo[1] + ";" +boxInfo[2]);
             box.GetComponent<BoxTagInformation>().UpdateInfo(boxInfo[0], boxInfo[1], boxInfo[2]);
         }
 	}
@@ -80,6 +80,20 @@ public class BoxInformationRepo : MonoBehaviour
 
         return box;
 	}
+
+    public string GetNameByReference(string partRef)
+    {
+        string partName = null;
+        foreach (KeyValuePair<string, string[]> kvp in repo)
+        {
+            if (kvp.Value[1] == partRef)
+            {
+                partName = kvp.Value[0];
+            }
+        }
+
+        return partName;
+    }
 
     public void UpdateSceneBoxesList()
 	{

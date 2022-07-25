@@ -26,7 +26,7 @@ public class Anchors : MonoBehaviour
     {
 		if (isStoreLoaded && (handMenu.configurationMode || handMenu.visualizationMode))
 		{
-            Debug.Log(store.anchorCount.ToString() + " anchors on store");
+            //Debug.Log(store.anchorCount.ToString() + " anchors on store");
 
             foreach (string anchorId in store.GetAllIds())
             {
@@ -54,7 +54,7 @@ public class Anchors : MonoBehaviour
 	{
         if(GameObject.Find(gameObjName) != null)
 		{
-            Debug.Log(gameObjName + " anchor saved");
+            //Debug.Log(gameObjName + " anchor saved");
             WorldAnchor anchor = selectedObject.AddComponent<WorldAnchor>();
             store.Save(gameObjName, anchor);
             PlayerPrefs.SetInt(gameObjName + "_scene", sceneSelector.selectedScene);
@@ -64,7 +64,7 @@ public class Anchors : MonoBehaviour
 
     public void LoadAnchor(string anchorId)
 	{
-        Debug.Log(anchorId + " anchor loaded");
+        //Debug.Log(anchorId + " anchor loaded");
         store.Load(anchorId, GameObject.Find(anchorId));
         //GameObject.Find(anchorId).SetActive(false);
     }
